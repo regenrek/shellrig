@@ -105,6 +105,28 @@ mdclip feature-x
 
 ![mdclip](public/mdclip.webp)
 
+### `ls` / `ll` / `lt` — listings (eza)
+
+These are aliases (only active if `eza` is installed).
+
+```bash
+ls
+ll
+lt
+```
+
+![ls/ll/lt](public/ls.webp)
+
+### `zi` — zinit
+
+If you use `zinit`, `zi` opens its UI.
+
+```bash
+zi
+```
+
+![zi](public/zi.webp)
+
 ## Usage
 
 ```bash

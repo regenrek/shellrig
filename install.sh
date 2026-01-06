@@ -48,7 +48,7 @@ printf 'Linked zsh plugin: %s -> %s\n' "$zsh_config_dir/shellrig.zsh" "$root_dir
 
 if (( configure_micro )); then
   if command -v python3 >/dev/null 2>&1; then
-    python3 "$root_dir/scripts/configure_micro.py" --softwrap true
+    python3 -B "$root_dir/scripts/configure_micro.py" --softwrap true
   else
     echo "warning: python3 not found; skipping micro configuration" >&2
   fi
