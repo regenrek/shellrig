@@ -22,6 +22,89 @@ Enable zsh functions/aliases (this repo links `~/.config/zsh/shellrig.zsh`):
 echo 'source "$XDG_CONFIG_HOME/zsh/shellrig.zsh"' >> ~/.zshrc
 ```
 
+Optional: enable soft line wrap in `micro` (writes to `~/.config/micro/settings.json`):
+
+```bash
+./install.sh --micro
+```
+
+## Screenshots (clipboard -> markdown)
+
+macOS: save clipboard screenshot into `public/` and copy Markdown to clipboard:
+
+```bash
+brew install pngpaste webp
+mdclip
+```
+
+More: `docs/mdclip.md`.
+
+## Commands (with screenshots)
+
+Use `mdclip <name>` to generate the Markdown line and assets in `public/`.
+
+### `co` — open files (fzf + preview)
+
+```bash
+co <query>        # filtered to “code-ish” files
+co -a <query>     # all files
+```
+
+`![co picker](public/co.webp)`
+
+### `pr` — jump to a repo
+
+```bash
+pr <query>
+```
+
+`![pr jump](public/pr.webp)`
+
+### `cwd` — print repo path
+
+```bash
+cwd <query>
+```
+
+`![cwd output](public/cwd.webp)`
+
+### `gpick` — pick a GitHub repo
+
+```bash
+gpick <search terms>
+```
+
+`![gpick](public/gpick.webp)`
+
+### `gclone` — clone a GitHub repo
+
+```bash
+gclone <search terms|owner/repo>
+gclone --ex <search terms|owner/repo>  # print SSH clone URL
+gclone --p <search terms|owner/repo>   # print owner/repo
+```
+
+`![gclone](public/gclone.webp)`
+
+### `gdelta` — pretty diffs
+
+```bash
+gdelta
+gdelta staged
+gdelta -- --stat
+```
+
+`![gdelta](public/gdelta.webp)`
+
+### `mdclip` — clipboard screenshot -> Markdown
+
+```bash
+mdclip
+mdclip feature-x
+```
+
+`![mdclip](public/mdclip.webp)`
+
 ## Usage
 
 ```bash

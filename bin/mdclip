@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat >&2 <<'EOF'
+mdclip — clipboard screenshot -> public/ asset + markdown
+
+Usage:
+  mdclip [name] [webp|png]
+
+Env:
+  MDSHOT_FMT=webp|png   (default: webp)
+  MDSHOT_MAX=1600       (max width/height, px)
+  MDSHOT_Q=78           (webp quality 0-100)
+
+Output:
+  Prints markdown to stdout and copies it to clipboard.
+EOF
+}
+
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  usage
+  exit 0
+fi
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || {
+    echo "error: missing required command: $1" >&2
+    exit 127
+  }
+}
+
+require_cmd git
+require_cmd pngpaste
+require_cmd sips
+require_cmd pbcopy
+
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || {
+  echo "mdclip: not inside a git repo" >&2
+  exit 2
+}
+
+dir="$root/public"
+mkdir -p "$dir"
+
+name="${1:-shot-$(date +%Y%m%d-%H%M%S)}"
+fmt="${2:-${MDSHOT_FMT:-webp}}"
+max="${MDSHOT_MAX:-1600}"
+q="${MDSHOT_Q:-78}"
+
+if [[ ! "$name" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]]; then
+  echo "mdclip: invalid name (use letters/numbers/._-): $name" >&2
+  exit 2
+fi
+
+case "$fmt" in
+  webp|png) ;;
+  *)
+    echo "mdclip: invalid format: $fmt (expected webp|png)" >&2
+    exit 2
+    ;;
+esac
+
+tmp="$(mktemp "$dir/.${name}.XXXXXX.png")"
+out="$dir/${name}.${fmt}"
+
+cleanup() {
+  rm -f "$tmp"
+}
+trap cleanup EXIT
+
+pngpaste "$tmp" >/dev/null 2>&1 || {
+  echo "mdclip: clipboard does not contain an image" >&2
+  exit 1
+}
+
+if ! sips -Z "$max" "$tmp" >/dev/null 2>&1; then
+  echo "mdclip: sips resize failed" >&2
+  exit 1
+fi
+
+if [[ "$fmt" == "png" ]]; then
+  mv -f "$tmp" "$out"
+  trap - EXIT
+  if command -v oxipng >/dev/null 2>&1; then
+    oxipng -o 4 -i 0 --strip safe "$out" >/dev/null 2>&1 || true
+  fi
+else
+  require_cmd cwebp
+  cwebp -q "$q" "$tmp" -o "$out" >/dev/null 2>&1 || {
+    echo "mdclip: cwebp failed" >&2
+    exit 1
+  }
+fi
+
+rel="public/$(basename "$out")"
+md="![screenshot]($rel)"
+
+printf '%s\n' "$md" | pbcopy
+printf '%s\n' "$md"
+

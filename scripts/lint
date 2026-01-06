@@ -8,7 +8,11 @@ if ! command -v shellcheck >/dev/null 2>&1; then
   exit 1
 fi
 
-find "$root_dir/bin" "$root_dir/lib" "$root_dir/scripts" -type f -print0 \
+find "$root_dir/bin" "$root_dir/lib" "$root_dir/scripts" -type f \
+  ! -name '*.py' \
+  ! -name '*.pyc' \
+  ! -path '*/__pycache__/*' \
+  -print0 \
   | xargs -0 shellcheck -x
 
 shellcheck -x "$root_dir/install.sh" "$root_dir/uninstall.sh"

@@ -30,6 +30,9 @@ recommend zi
 recommend zinit
 recommend git-new
 recommend git-cmp
+recommend pngpaste
+recommend cwebp
+recommend oxipng
 
 if (( ${#missing_required[@]} > 0 )); then
   printf 'Missing required:\n' >&2

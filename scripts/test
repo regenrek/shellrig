@@ -17,3 +17,7 @@ else
   echo "error: zsh not found in PATH" >&2
   exit 1
 fi
+
+if command -v python3 >/dev/null 2>&1; then
+  python3 -B -m py_compile "$root_dir/scripts/configure_micro.py"
+fi
