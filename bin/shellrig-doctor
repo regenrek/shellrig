@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+missing_required=()
+missing_recommended=()
+
+require() {
+  command -v "$1" >/dev/null 2>&1 || missing_required+=("$1")
+}
+
+recommend() {
+  command -v "$1" >/dev/null 2>&1 || missing_recommended+=("$1")
+}
+
+require bash
+require zsh
+
+recommend git
+recommend gh
+recommend jq
+recommend fzf
+recommend fd
+recommend eza
+recommend delta
+recommend bat
+recommend micro
+recommend tmux
+recommend shellcheck
+recommend zi
+recommend zinit
+recommend git-new
+recommend git-cmp
+
+if (( ${#missing_required[@]} > 0 )); then
+  printf 'Missing required:\n' >&2
+  printf '  - %s\n' "${missing_required[@]}" >&2
+  exit 1
+fi
+
+if (( ${#missing_recommended[@]} > 0 )); then
+  printf 'Missing recommended:\n' >&2
+  printf '  - %s\n' "${missing_recommended[@]}" >&2
+  exit 2
+fi
+
+echo "OK"

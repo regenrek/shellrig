@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat >&2 <<'EOF'
+usage:
+  git new <branch>
+
+Creates and checks out a new branch, then pushes it to origin with upstream set.
+EOF
+}
+
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  usage
+  exit 0
+fi
+
+branch="${1:-}"
+if [[ -z "$branch" ]]; then
+  usage
+  exit 2
+fi
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "error: not inside a git repository" >&2
+  exit 1
+fi
+
+if git show-ref --verify --quiet "refs/heads/$branch"; then
+  echo "error: branch already exists: $branch" >&2
+  exit 1
+fi
+
+if ! git remote get-url origin >/dev/null 2>&1; then
+  echo "error: remote 'origin' not configured" >&2
+  exit 1
+fi
+
+git checkout -b "$branch"
+git push -u origin "$branch"
+

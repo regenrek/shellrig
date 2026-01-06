@@ -11,3 +11,11 @@ fi
 find "$root_dir/bin" "$root_dir/lib" "$root_dir/scripts" -type f -print0 \
   | xargs -0 shellcheck -x
 
+shellcheck -x "$root_dir/install.sh" "$root_dir/uninstall.sh"
+
+if command -v zsh >/dev/null 2>&1; then
+  zsh -n "$root_dir/zsh/"*.zsh
+else
+  echo "error: zsh not found in PATH" >&2
+  exit 1
+fi

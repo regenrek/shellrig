@@ -12,9 +12,8 @@ jobs:
       - name: Install shellcheck
         run: |
           sudo apt-get update
-          sudo apt-get install -y shellcheck
+          sudo apt-get install -y shellcheck zsh jq
       - name: Lint
         run: ./scripts/lint
       - name: Test
         run: ./scripts/test
-
