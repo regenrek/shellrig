@@ -76,8 +76,6 @@ More: `docs/mdclip.md`.
 
 ## Commands
 
-Use `mdclip <name>` to generate the Markdown line and assets in `public/`.
-
 ### `co` — open files (fzf + preview)
 
 ```bash
