@@ -50,7 +50,7 @@ co <query>        # filtered to “code-ish” files
 co -a <query>     # all files
 ```
 
-`![co picker](public/co.webp)`
+![co picker](public/co.webp)
 
 ### `pr` — jump to a repo
 
@@ -58,7 +58,7 @@ co -a <query>     # all files
 pr <query>
 ```
 
-`![pr jump](public/pr.webp)`
+![pr jump](public/pr.webp)
 
 ### `cwd` — print repo path
 
@@ -66,7 +66,7 @@ pr <query>
 cwd <query>
 ```
 
-`![cwd output](public/cwd.webp)`
+![cwd output](public/cwd.webp)
 
 ### `gpick` — pick a GitHub repo
 
@@ -74,7 +74,7 @@ cwd <query>
 gpick <search terms>
 ```
 
-`![gpick](public/gpick.webp)`
+![gpick](public/gpick.webp)
 
 ### `gclone` — clone a GitHub repo
 
@@ -84,7 +84,7 @@ gclone --ex <search terms|owner/repo>  # print SSH clone URL
 gclone --p <search terms|owner/repo>   # print owner/repo
 ```
 
-`![gclone](public/gclone.webp)`
+![gclone](public/gclone.webp)
 
 ### `gdelta` — pretty diffs
 
@@ -94,7 +94,7 @@ gdelta staged
 gdelta -- --stat
 ```
 
-`![gdelta](public/gdelta.webp)`
+![gdelta](public/gdelta.webp)
 
 ### `mdclip` — clipboard screenshot -> Markdown
 
@@ -103,7 +103,7 @@ mdclip
 mdclip feature-x
 ```
 
-`![mdclip](public/mdclip.webp)`
+![mdclip](public/mdclip.webp)
 
 ## Usage
 
