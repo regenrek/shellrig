@@ -74,7 +74,7 @@ mdclip
 
 More: `docs/mdclip.md`.
 
-## Commands (with screenshots)
+## Commands
 
 Use `mdclip <name>` to generate the Markdown line and assets in `public/`.
 
