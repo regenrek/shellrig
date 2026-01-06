@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import sys
+
+sys.dont_write_bytecode = True
+
 import argparse
 import json
 import os
-import sys
 from pathlib import Path
 
 
@@ -50,4 +53,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
