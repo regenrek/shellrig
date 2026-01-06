@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+prog="$(basename "$0")"
+root_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+bin_dir="$root_dir/bin"
+
+usage() {
+  cat <<EOF
+${prog} — personal shell scripts
+
+Usage:
+  ${prog} list
+  ${prog} <command> [args...]
+  ${prog} help
+  ${prog} --version
+EOF
+}
+
+list_commands() {
+  local file name
+  while IFS= read -r file; do
+    name="$(basename "$file")"
+    name="${name#"${prog}"-}"
+    printf '%s\n' "$name"
+  done < <(find "$bin_dir" -maxdepth 1 -type f -name "${prog}-*" -perm -111 -print | sort)
+}
+
+command="${1:-}"
+case "$command" in
+  "" | help | -h | --help)
+    usage
+    exit 0
+    ;;
+  --version | -V)
+    cat "$root_dir/VERSION"
+    exit 0
+    ;;
+  list)
+    list_commands
+    exit 0
+    ;;
+esac
+
+shift
+cmd_path="$bin_dir/${prog}-${command}"
+if [[ ! -x "$cmd_path" ]]; then
+  printf 'error: unknown command: %s\n\n' "$command" >&2
+  usage >&2
+  exit 2
+fi
+
+exec "$cmd_path" "$@"
