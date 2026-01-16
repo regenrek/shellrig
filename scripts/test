@@ -3,7 +3,11 @@ set -euo pipefail
 
 root_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 
-find "$root_dir/bin" "$root_dir/lib" "$root_dir/scripts" -type f -print0 \
+find "$root_dir/bin" "$root_dir/lib" "$root_dir/scripts" -type f \
+  ! -name '*.py' \
+  ! -name '*.pyc' \
+  ! -path '*/__pycache__/*' \
+  -print0 \
   | xargs -0 bash -n
 
 bash -n "$root_dir/install.sh" "$root_dir/uninstall.sh"

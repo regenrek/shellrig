@@ -1,67 +1,23 @@
 # shellrig
 
-My own shell scripts I use daily.
+Fast shell tools for navigating projects, wrangling git, and staying in flow.
+
+![shellrig preview](public/shellrig.jpg)
+
+
+- **Jump anywhere** — fuzzy-find files (`co`) and projects (`pr`) with instant previews
+- **GitHub shortcuts** — search, pick, and clone repos without leaving the terminal (`gpick`, `gclone`)
+- **Pretty diffs** — readable git diffs via delta (`gdelta`)
+- **Quick commits** — `git cmp "message"` stages everything and pushes in one shot
+- **Clipboard → Markdown** — paste a screenshot, get a webp + markdown link (`mdclip`)
 
 ## Install
-
-### Recommended (manual)
-
-Clone anywhere you like (examples assume `~/projects/shellrig`):
 
 ```bash
 git clone git@github.com:regenrek/shellrig.git ~/projects/shellrig
 ```
 
-Add `shellrig/bin` to your PATH (choose your shell config file):
-
-- zsh (`~/.zshrc`):
-  ```bash
-  export PATH="$HOME/projects/shellrig/bin:$PATH"
-  ```
-- bash (`~/.bashrc`):
-  ```bash
-  export PATH="$HOME/projects/shellrig/bin:$PATH"
-  ```
-- fish (`~/.config/fish/config.fish`):
-  ```fish
-  fish_add_path -g "$HOME/projects/shellrig/bin"
-  ```
-
-Zsh functions/aliases (zsh only; add to `~/.zshrc`):
-
-```bash
-source "$HOME/projects/shellrig/zsh/shellrig.zsh"
-```
-
-### Advanced (install script — experienced users only)
-
-`install.sh` creates symlinks in your home directory. Use only if you’re comfortable with that, and prefer manual install if you only want a subset of commands.
-
-What it touches:
-
-- `~/.local/bin/*` symlinks to `shellrig/bin/*`
-- `~/.config/zsh/shellrig.zsh` symlink to `shellrig/zsh/shellrig.zsh` (unless `--no-zsh`)
-- `~/.config/micro/settings.json` (only with `--micro`)
-
-Safety:
-
-- Refuses to overwrite existing files unless `--force`
-
-```bash
-./install.sh
-```
-
-If you don’t use zsh:
-
-```bash
-./install.sh --no-zsh
-```
-
-Optional: enable soft line wrap in `micro` (writes to `~/.config/micro/settings.json`):
-
-```bash
-./install.sh --micro
-```
+Then add to your PATH and source the zsh plugin → [full install guide](docs/install.md)
 
 ## Screenshots (clipboard -> markdown)
 
@@ -78,14 +34,18 @@ More: `docs/mdclip.md`.
 
 ### `co` — open files (fzf + preview)
 
+Quickly open any file in your editor when you roughly know the name but not the path.
+
 ```bash
-co <query>        # filtered to “code-ish” files
+co <query>        # filtered to "code-ish" files
 co -a <query>     # all files
 ```
 
 ![co picker](public/co.webp)
 
 ### `pr` — jump to a repo
+
+Instantly `cd` into any project folder without typing long paths.
 
 ```bash
 pr <query>
@@ -95,6 +55,8 @@ pr <query>
 
 ### `cwd` — print repo path
 
+Get the full path to a project for use in scripts or other commands.
+
 ```bash
 cwd <query>
 ```
@@ -103,6 +65,8 @@ cwd <query>
 
 ### `gpick` — pick a GitHub repo
 
+Search GitHub and interactively pick a repo when you can't remember the exact `owner/repo`.
+
 ```bash
 gpick <search terms>
 ```
@@ -110,6 +74,8 @@ gpick <search terms>
 ![gpick](public/gpick.webp)
 
 ### `gclone` — clone a GitHub repo
+
+Clone any repo by searching for it — no need to open a browser or copy URLs.
 
 ```bash
 gclone <search terms|owner/repo>
@@ -121,6 +87,8 @@ gclone --p <search terms|owner/repo>   # print owner/repo
 
 ### `gdelta` — pretty diffs
 
+Review changes with syntax highlighting and side-by-side view before committing.
+
 ```bash
 gdelta
 gdelta staged
@@ -131,6 +99,8 @@ gdelta -- --stat
 
 ### `mdclip` — clipboard screenshot -> Markdown
 
+Turn a screenshot on your clipboard into a compressed webp and ready-to-paste markdown link.
+
 ```bash
 mdclip
 mdclip feature-x
@@ -140,7 +110,7 @@ mdclip feature-x
 
 ### `ls` / `ll` / `lt` — listings (eza)
 
-These are aliases (only active if `eza` is installed).
+Better directory listings with icons, git status, and tree views.
 
 ```bash
 ls
@@ -152,7 +122,7 @@ lt
 
 ### `zi` — zinit
 
-If you use `zinit`, `zi` opens its UI.
+Manage your zsh plugins interactively if you use zinit.
 
 ```bash
 zi

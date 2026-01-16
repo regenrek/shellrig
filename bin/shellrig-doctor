@@ -26,8 +26,6 @@ recommend bat
 recommend micro
 recommend tmux
 recommend shellcheck
-recommend zi
-recommend zinit
 recommend git-new
 recommend git-cmp
 recommend pngpaste

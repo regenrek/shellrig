@@ -1,19 +1,15 @@
 #!/usr/bin/env zsh
 
-__SHELLRIG_CO_EXTS=(
-  ts tsx js jsx mjs cjs
-  go rs py rb
-  sh zsh bash
-  md
-  json yaml yml toml
-)
-
 _shellrig__co_pick_files() {
   emulate -L zsh -o err_return -o pipe_fail
 
   local query="$1"
   shift
-  local -a exts=("$@")
+  local include_git=0
+  if [[ "${1:-}" == "--include-git" ]]; then
+    include_git=1
+    shift
+  fi
 
   if (( ! $+commands[fd] )); then
     echo "co: fd not found in PATH" >&2
@@ -31,14 +27,10 @@ _shellrig__co_pick_files() {
     --type f
     --hidden
     --follow
-    --exclude .git
   )
 
-  if (( ${#exts[@]} > 0 )); then
-    local ext
-    for ext in "${exts[@]}"; do
-      fd_args+=(-e "$ext")
-    done
+  if (( ! include_git )); then
+    fd_args+=(--exclude .git)
   fi
 
   cd -- "$root" || return 1
@@ -62,8 +54,8 @@ co() {
       --help|-h)
         cat >&2 <<'EOF'
 usage:
-  co [query]         # open “code-ish” files (filtered)
-  co -a [query]      # open any file
+  co [query]         # open files (excludes .git)
+  co -a [query]      # open any file (includes .git)
 EOF
         return 0
         ;;
@@ -80,9 +72,9 @@ EOF
   local query="${*:-}"
   local -a files
   if (( all )); then
-    files=("${(@f)$(_shellrig__co_pick_files "$query")}") || return $?
+    files=("${(@f)$(_shellrig__co_pick_files "$query" --include-git)}") || return $?
   else
-    files=("${(@f)$(_shellrig__co_pick_files "$query" "${__SHELLRIG_CO_EXTS[@]}")}") || return $?
+    files=("${(@f)$(_shellrig__co_pick_files "$query")}") || return $?
   fi
 
   (( ${#files[@]} == 0 )) && return 1
