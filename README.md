@@ -4,7 +4,6 @@ Fast shell tools for navigating projects, wrangling git, and staying in flow.
 
 ![shellrig preview](public/shellrig.jpg)
 
-
 - **Jump anywhere** — fuzzy-find files (`co`) and projects (`pr`) with instant previews
 - **GitHub shortcuts** — search, pick, and clone repos without leaving the terminal (`gpick`, `gclone`)
 - **Pretty diffs** — readable git diffs via delta (`gdelta`)
@@ -120,9 +119,9 @@ lt
 
 ![ls/ll/lt](public/ls.webp)
 
-### `zi` — zinit
+### `zi` — zoxide
 
-Manage your zsh plugins interactively if you use zinit.
+Jump to frequently used directories without typing full paths — zoxide learns where you go.
 
 ```bash
 zi
